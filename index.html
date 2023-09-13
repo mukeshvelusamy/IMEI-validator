@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IMEI validate</title>
+    <style>
+        body {
+            text-align: center;
+            background: royalblue;
+        }
+
+        form {
+            margin: 10% auto;
+        }
+
+        input {
+            padding: 15px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            padding: 15px;
+            border: none;
+            outline: none;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<h1>IMEI VALIDATOR</h1>
+<form method="post" action="index.html" onsubmit="return myval();">
+    <input type="number" id="value" name="imei" placeholder="Enter the IMEI number">
+    <button type="submit" name="submit" value="submit">Submit</button>
+</form>
+<script>
+    function myval() {
+        var n = document.getElementById("value").value;
+        var s = n.toString();
+        var len = s.length;
+
+        function sumDig(n) {
+            var a = 0;
+            while (n > 0) {
+                a = a + n % 10;
+                n = parseInt(n / 10, 10);
+            }
+            return a;
+        }
+
+        function isValidIMEI(n) {
+            if (len == 14) {
+                var sum = 0;
+                var mull;
+                for (let i = len; i >= 1; i--) {
+                    var d = (n % 10);
+                    if (i % 2 == 0)
+                        d = 2 * d;
+                    sum += sumDig(d);
+                    n = parseInt(n / 10, 10);
+                }
+                mull = sum * 9;
+                var last = (mull % 10);
+
+                alert("Last Digit IMEI To Add: " + last);
+            } else if (len == 15) {
+                var sum = 0;
+                for (let i = len; i >= 1; i--) {
+                    var d = (n % 10);
+                    if (i % 2 == 0)
+                        d = 2 * d;
+                    sum += sumDig(d);
+                    n = parseInt(n / 10, 10);
+                }
+
+                if (sum % 10 == 0)
+                    alert("Valid IMEI Number");
+            } else {
+                alert("Invalid IMEI Number");
+            }
+        }
+
+        isValidIMEI(n);
+        return false; // Prevent form submission
+    }
+</script>
+
+</body>
+</html>
